@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+  {% if user.is_authenticated %}
+    <h4>Current user: {{user.email}}</h4>
+  {% else %}
+    <h4>No User Logged In</h4>
+  {% endif %}
   <h1>Resto Delight Wooh</h1>
 
 {% endblock %}
