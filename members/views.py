@@ -2,20 +2,23 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-
+from django.contrib.auth.models import Group
 # Create your views here.
+
+
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
-        if request.user.is_superuser:
-            login(request, user)
-            return redirect('home')
-        elif not request.user.is_superuser:
-            login(request,user)
-            return redirect('home')
+        if user is not None:
+            if user.is_superuser or user.is_staff:
+                login(request, user)
+                return redirect('dashboard')
+            else:
+                login(request,user)
+                return redirect('home')
         else:
             messages.success(request, "There was an error, try again")
             return redirect('login')
@@ -33,5 +36,4 @@ def register_user(request):
         form = UserCreationForm(request.POST)
     else:
         form = UserCreationForm()
-
     return render(request, 'authenticate/register_user.html', {'form': form})

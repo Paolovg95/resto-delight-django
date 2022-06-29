@@ -1,4 +1,4 @@
-#!/Users/paolovargas1/code/Paolovg95/restaurant_delight/bin/python
+#!/Users/brunoortega/resto-delight-django/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
