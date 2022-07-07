@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
+from .forms import IngredientForm
+from menus.models import Ingredient, Recipe
 # Create your views here.
 
 
@@ -25,6 +27,47 @@ def login_user(request):
     else:
         return render(request, 'authenticate/login.html', {})
 
+
+def create_ingredient(request):
+    form = IngredientForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            ingredient = form.save(commit=False)
+            ingredient.save()
+            return redirect('ingredients')
+    else:
+        form = IngredientForm()
+    
+    context = {
+        'form': form 
+    }
+
+    return render(request, 'authenticate/create_ingredient.html', context)
+
+def delete_ingredient(request, id=id):
+    ingredient = get_object_or_404(Ingredient, id=id)
+
+    if request.method == 'POST':
+        ingredient.delete()
+
+        return redirect()
+def view_ingredients(request):
+    ingredients = Ingredient.objects.all()
+
+    context = { 
+        'objects': ingredients
+    }
+    return render(request, 'authenticate/ingredients.html', context)
+
+def view_recipes(request):
+    recipes = Recipe.objects.all()
+
+    context = {
+        'recipes': recipes
+    }
+
+    return render(request, 'authenticate/recipes.html', context)
+    
 def logout_user(request):
     logout(request)
     messages.success(request,'You were Logged out!')
