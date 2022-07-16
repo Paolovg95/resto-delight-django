@@ -1,9 +1,10 @@
 from cgi import print_exception
+from tkinter import Widget
 from unicodedata import category, name
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from menus.models import Ingredient
+from menus.models import Ingredient, Recipe
 
 class IngredientForm(forms.ModelForm):
     class Meta:
@@ -25,3 +26,11 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name')
+
+class RecipeForm(forms.ModelForm):
+    class Meta: 
+        model = Recipe
+        fields = ('title', 'status')    
+        widgets = {
+            'title': forms.TextInput(attrs = { 'class': 'form-control'}),
+        }

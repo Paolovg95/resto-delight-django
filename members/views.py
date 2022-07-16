@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
-from .forms import IngredientForm
+from .forms import IngredientForm, RecipeForm
 from menus.models import Ingredient, Recipe
 # Create your views here.
 
@@ -67,7 +67,23 @@ def view_recipes(request):
     }
 
     return render(request, 'authenticate/recipes.html', context)
-    
+
+def create_recipe(request):
+    form = RecipeForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            recipe = form.save(commit=False)
+            recipe.save()
+            return redirect('dashboard')
+    else:
+        form = RecipeForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, 'authenticate/create_recipe.html', context)
+
+        
 def logout_user(request):
     logout(request)
     messages.success(request,'You were Logged out!')

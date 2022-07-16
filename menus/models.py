@@ -1,7 +1,7 @@
+from pickle import LIST
 from unicodedata import category
 from django.db import models
 
-# Create your models here.
 class CategoryMenu(models.Model):
     name = models.CharField(max_length=200)
 
@@ -18,7 +18,7 @@ class Ingredient(models.Model):
     category = models.ForeignKey(CategoryIngredient, on_delete=models.CASCADE,null=True)
     price = models.DecimalField(decimal_places=2, max_digits=5)
     unit =  models.CharField(max_length=30)
-    quantity = models.Counter()
+    quantity = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -27,8 +27,16 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
+    DONE = 'Done'
+    PROCESS = 'In Process'
+    LISTED_ON_MENU = 'Listed on Menu'
+    STATUS = [
+        (DONE, 'Done'),
+        (PROCESS, 'In Process'),
+        (LISTED_ON_MENU, 'Listed on Menu')
+    ]
     title = models.CharField(max_length=30)
-    status = models.CharField(max_length=10,null=True)
+    status = models.CharField(max_length=20,null=True,choices=STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -5,7 +5,8 @@ from .views import (
     register_user,
     create_ingredient,
     view_ingredients,
-    view_recipes
+    view_recipes,
+    create_recipe
 )
 urlpatterns = [
     path('login_user', login_user, name="login"),
@@ -13,5 +14,6 @@ urlpatterns = [
     path('register_user', register_user, name="register_user"),
     path('create_ingredient', create_ingredient, name="create_ingredient"),
     path('ingredients', view_ingredients, name="ingredients"),
-    path('recipes', view_recipes, name="recipes")
+    path('recipes', view_recipes, name="recipes"),
+    path('create_recipe', create_recipe, name='create_recipe')
 ]
