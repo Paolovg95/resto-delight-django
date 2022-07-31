@@ -1,5 +1,4 @@
 from multiprocessing import context
-import re
 from django.shortcuts import render
 from menus.models import CategoryMenu, Recipe
 from django.db.models import Q

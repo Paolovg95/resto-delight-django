@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -83,7 +84,17 @@ def create_recipe(request):
     }
     return render(request, 'authenticate/create_recipe.html', context)
 
-        
+def delete_recipe(request, id=id):
+    recipe = get_object_or_404(Recipe, id=id)
+    if request.method == 'POST':
+        recipe.delete()
+        return redirect('recipes')
+    
+    context = {
+        'object': recipe
+    }
+    return render(request, "authenticate/delete_recipe.html", context)
+
 def logout_user(request):
     logout(request)
     messages.success(request,'You were Logged out!')

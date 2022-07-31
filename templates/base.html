@@ -1,26 +1,36 @@
 <!doctype html>
 <html>
 
-<head>
-  <title>Resto Delight</title>
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    {% load static %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+  <head>
+    <title>Resto Delight</title>
+      {% load bootstrap5 %}
+      {% bootstrap_css %}
+      {% bootstrap_javascript %}
+      {% load static %}
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+      <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+      <script src="https://unpkg.com/htmx.org@1.8.0"></script>
 
   </head>
-<style>
-  body {
-    background: #f4f4f4;
-  }
-</style>
 
-<body>
-  {% include 'navbar.html' %}
-  {% block content %}
-  {% endblock %}
-</body>
+  <style>
+    body {
+      background: #f4f4f4;
+    }
+  </style>
+
+  <body>
+    {% include 'navbar.html' %}
+    {% block content %}
+      
+      <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+          event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+        </script>
+    
+    {% endblock %}
+  </body>
 
 </html>
