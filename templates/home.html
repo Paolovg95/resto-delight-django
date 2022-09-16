@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
-
 {% block content %}
+  
   {% if user.is_authenticated %}
     <h4>Current user: {{user.email}}</h4>
   {% else %}
